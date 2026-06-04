@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Friend Loan Application Portal</title>
+<style>
+body{font-family:'Times New Roman', Times, serif,sans-serif;background:#f4f6f8;padding:40px}
+.container{max-width:900px;margin:auto;background:white;padding:30px;border-radius:12px;box-shadow:0 0 15px rgba(0,0,0,.1)}
+.hidden{display:none}
+label{display:block;margin-top:12px;font-weight:bold}
+input,textarea,select{width:100%;padding:10px;box-sizing:border-box;margin-top:4px}
+button{margin-top:20px;padding:12px;width:100%}
+.card{border:1px solid #ddd;padding:15px;border-radius:8px;margin-top:10px}
+.error{background:#ffe6e6;border:1px solid red;padding:15px;border-radius:8px;margin-top:15px}
+.success{background:#e6ffe6;border:1px solid green;padding:15px;border-radius:8px;margin-top:15px}
+.inlinecheck{width:auto;margin-right:10px}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div id="page1">
+<h1>Friend Loan Application Portal</h1>
+<h2>Applicant Information</h2>
+
+<form id="infoForm">
+<label>First Name</label><input type="text" required>
+<label>Middle Name</label><input type="text">
+<label>Last Name</label><input type="text" required>
+
+<label>Residential Address</label>
+<textarea required></textarea>
+
+<label>What do you identify as?</label>
+<select required>
+<option value="">Select One</option>
+<option>Heterosexual</option>
+<option>Homosexual</option>
+<option>Homo Erectus</option>
+<option>Yunxian Man</option>
+<option>Spiritually Israeli</option>
+<option>Avinash</option>
+</select>
+
+<label>Upload Valid Identification</label>
+<input type="file" id="idFile" accept=".pdf,.jpg,.jpeg,.png" required>
+
+<label>Financial Status</label>
+<select id="financialStatus" required>
+<option value="">Select One</option>
+<option>Student</option>
+<option>Unemployed</option>
+<option>Employed</option>
+<option>Self-Employed</option>
+<option>Free-lance</option>
+<option>Agent of Mossad</option>
+<option>Agent of Hamas</option>
+<option>Ryan Foo</option>
+<option>Financially Jewish</option>
+</select>
+
+<h3>Bank Information</h3>
+<label>Bank Name</label><input type="text" required>
+<label>Account Holder Name</label><input type="text" required>
+<label>Account Number</label><input type="text" required>
+<label>SWIFT/BIC Code</label><input type="text">
+
+<button type="submit">Continue to Credit Assessment</button>
+</form>
+<div id="infoMessage"></div>
+</div>
+
+<div id="page2" class="hidden">
+<h2>Credit Assessment</h2>
+<form id="creditForm">
+
+<label>How many times have you said "I'll pay you back tomorrow"?</label>
+<input type="number" min="0" required>
+
+<label>How surprised would your friends be if you repaid this loan?</label>
+<select required>
+<option value="">Select One</option>
+<option>Not surprised</option>
+<option>Slightly surprised</option>
+<option>Moderately surprised</option>
+<option>Extremely surprised</option>
+<option>Headline news</option>
+</select>
+
+<label>Do you own any cats?</label>
+<select id="ownsCats" required>
+<option value="">Select One</option>
+<option value="yes">Yes</option>
+<option value="no">No</option>
+</select>
+
+<div id="catSection" class="hidden">
+<label>Number of Cats</label>
+<input type="number" id="catCount" min="1" value="1">
+<button type="button" onclick="generateCatForms()">Generate Cat Forms</button>
+<div id="catForms"></div>
+</div>
+
+<label><input class="inlinecheck" type="checkbox" required>
+I acknowledge that repayment dates are not merely suggestions, estimates, aspirations, dreams, manifestations, rough guidelines, hypothetical projections, or works of speculative fiction.
+</label>
+
+<label><input class="inlinecheck" type="checkbox" required>
+I certify under penalty of friendship that all statements made within this application are true, accurate, and not the result of excessive optimism regarding my future financial situation.
+</label>
+
+<label><input class="inlinecheck" type="checkbox" required>
+I understand that approval of this application does not guarantee disbursement of funds, sympathy, emotional support, or a favourable response to future borrowing requests.
+</label>
+
+<label><input class="inlinecheck" type="checkbox" required>
+I understand that should this application be accepted, I am contractually obligated to complete any due payment within 6 weeks of receiving the loan. This includes the any interests payment to account for inflation. Hard time innit
+</label>
+
+<button type="submit">Continue</button>
+</form>
+</div>
+
+<div id="page3" class="hidden">
+<h2>Screening Contact Information</h2>
+<p>
+Thank you for completing the preliminary assessment.
+Should your application survive the review process, you will be contacted
+for a mandatory screening interview before any loan can be considered.
+</p>
+
+<form id="contactForm">
+<label>Email Address</label>
+<input type="email" required>
+
+<label>Phone Number</label>
+<input type="tel" required>
+
+<button type="submit">Submit Application</button>
+</form>
+</div>
+
+<div id="page4" class="hidden">
+<div class="success">
+<h2>Application Submitted</h2>
+<p>Your application has entered the review pipeline.</p>
+<ul>
+<li>Queue Position: 12,847</li>
+<li>Estimated Processing Time: 4–6 fiscal quarters</li>
+<li>Status: Pending review by the Supreme Friendship Credit Committee</li>
+<li>Additional checks may include cat solvency assessment and friendship stress testing.</li>
+</ul>
+<p>You will be contacted if your application progresses to the next stage.</p>
+</div>
+</div>
+
+</div>
+
+<script>
+document.getElementById("infoForm").addEventListener("submit", function(e){
+e.preventDefault();
+
+const file=document.getElementById("idFile").files[0];
+const status=document.getElementById("financialStatus").value;
+const msg=document.getElementById("infoMessage");
+
+if(!file){msg.innerHTML='<div class="error">Please upload identification.</div>';return;}
+
+const ext=file.name.split('.').pop().toLowerCase();
+if(!['pdf','jpg','jpeg','png'].includes(ext)){
+msg.innerHTML='<div class="error">Identification must be PDF, JPG, JPEG or PNG.</div>';
+return;
+}
+
+if(status==="Ryan Foo"){
+msg.innerHTML='<div class="error"><h3>Application Rejected</h3>We cannot accept any loan application submitted by individuals of Ryan Foo status due to a lack of financial security and elevated repayment risk.</div>';
+return;
+}
+
+document.getElementById("page1").classList.add("hidden");
+document.getElementById("page2").classList.remove("hidden");
+});
+
+document.getElementById("ownsCats").addEventListener("change", function(){
+document.getElementById("catSection").classList.toggle("hidden", this.value!=="yes");
+});
+
+function generateCatForms(){
+const count=parseInt(document.getElementById("catCount").value)||1;
+const container=document.getElementById("catForms");
+container.innerHTML="";
+for(let i=1;i<=count;i++){
+container.innerHTML += `
+<div class="card">
+<h4>Cat ${i}</h4>
+<label>Name</label><input type="text">
+<label>Age</label><input type="number" min="0">
+<label>Weight (kg)</label><input type="number" step="0.1">
+</div>`;
+}
+}
+
+document.getElementById("creditForm").addEventListener("submit", function(e){
+e.preventDefault();
+document.getElementById("page2").classList.add("hidden");
+document.getElementById("page3").classList.remove("hidden");
+});
+
+document.getElementById("contactForm").addEventListener("submit", function(e){
+e.preventDefault();
+document.getElementById("page3").classList.add("hidden");
+document.getElementById("page4").classList.remove("hidden");
+});
+</script>
+</body>
+</html>
