@@ -338,11 +338,8 @@ fileReader.onload = async function(){
 
     catch(error){
 
-        alert(
-            "Submission failed. Please contact the Department of Unnecessary Bureaucracy."
-        );
-
         console.error(error);
+        alert("Submission Failed;\n\n" + error.message)
 
     }
 
