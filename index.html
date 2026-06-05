@@ -312,14 +312,13 @@ fileReader.onload = async function(){
 
             method: "POST",
 
+            mode: "no-cors",
+
             body:
             JSON.stringify(submission)
 
         });
         document.body.style.cursor = "default";
-        const text = await response.text();
-
-        console.log(text);
 
         document
         .getElementById("page3")
